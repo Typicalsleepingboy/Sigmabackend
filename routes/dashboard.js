@@ -5,17 +5,17 @@ const router = express.Router();
 
 router.get('/summary', async (req, res) => {
     try {
-        const usersCollection = getUsersCollection();
+        const usersCollection = await getUsersCollection();
         const totalUsers = await usersCollection.countDocuments();
-        const categories = await usersCollection.distinct('category');
-        
+        const totalCategories = await usersCollection.distinct('category');
+        const categoryCount = totalCategories.length;
+
         res.status(200).json({
             status: 'success',
             code: 200,
             data: {
                 totalUsers,
-                categoriesCount: categories.length,
-                categories: categories
+                totalCategories: categoryCount
             }
         });
     } catch (error) {
@@ -58,7 +58,7 @@ router.get('/pie-chart', async (req, res) => {
             match.createdAt = { $gte: start, $lte: end };
         }
         
-        const usersCollection = getUsersCollection();
+        const usersCollection = await getUsersCollection();
         const data = await usersCollection.aggregate([
             { $match: match },
             { $group: { _id: '$category', count: { $sum: 1 } } },

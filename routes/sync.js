@@ -9,7 +9,7 @@ router.post('/sync', async (req, res) => {
     try {
         const response = await axios.get('https://jsonplaceholder.typicode.com/users');
         const users = response.data;
-        const usersCollection = getUsersCollection();
+        const usersCollection = await getUsersCollection();
 
         for (const userData of users) {
             const category = userData.company.name;
@@ -29,7 +29,7 @@ router.post('/sync', async (req, res) => {
             );
         }
 
-        const syncLogsCollection = getSyncLogsCollection();
+        const syncLogsCollection = await getSyncLogsCollection();
         await syncLogsCollection.updateOne(
             {},
             { 
@@ -49,7 +49,7 @@ router.post('/sync', async (req, res) => {
             code: 200
         });
     } catch (error) {
-        const syncLogsCollection = getSyncLogsCollection();
+        const syncLogsCollection = await getSyncLogsCollection();
         await syncLogsCollection.updateOne(
             {},
             { 
@@ -73,7 +73,7 @@ router.post('/sync', async (req, res) => {
 
 router.get('/last-sync', async (req, res) => {
     try {   
-        const syncLogsCollection = getSyncLogsCollection();
+        const syncLogsCollection = await getSyncLogsCollection();
 
         const log = await syncLogsCollection.findOne({}, { sort: { lastSyncTime: -1 } });
 

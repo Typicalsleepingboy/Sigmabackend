@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        const usersCollection = getUsersCollection();
+        const usersCollection = await getUsersCollection();
         const users = await usersCollection.find({}).toArray();
 
         res.status(200).json({
@@ -230,7 +230,7 @@ router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
-        const usersCollection = getUsersCollection();
+        const usersCollection = await getUsersCollection();
 
         const result = await usersCollection.deleteOne({ id: parseInt(id) });
 

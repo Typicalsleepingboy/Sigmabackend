@@ -1,5 +1,8 @@
 const { getDb } = require('../config/db');
 
-const getSyncLogsCollection = () => getDb().collection('synclogs');
+const getSyncLogsCollection = async () => {
+    const db = await getDb();
+    return db.collection('synclogs');
+};
 
 module.exports = { getSyncLogsCollection };

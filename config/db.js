@@ -5,16 +5,23 @@ const client = new MongoClient(process.env.MONGODB_URI);
 let db;
 
 const connectDB = async () => {
+    if (db) return db;
     try {
         await client.connect();
         db = client.db('telkomsigma');
         console.log('MongoDB connected');
+        return db;
     } catch (error) {
         console.error('MongoDB connection error:', error);
-        process.exit(1);
+        throw error;
     }
 };
 
-const getDb = () => db;
+const getDb = async () => {
+    if (!db) {
+        await connectDB();
+    }
+    return db;
+};
 
 module.exports = { connectDB, getDb };
