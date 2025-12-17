@@ -1,0 +1,16 @@
+{
+    "version": 2,
+    "name": "Sigma",
+    "builds": [
+        {
+            "src": "./app.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/"
+        }
+    ]
+}
