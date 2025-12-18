@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
             });
         }
 
-        const usersCollection = getUsersCollection();
+        const usersCollection = await getUsersCollection();
 
         const existingUser = await usersCollection.findOne({ email });
         if (existingUser) {
@@ -142,7 +142,7 @@ router.put('/:id', async (req, res) => {
             });
         }
 
-        const usersCollection = getUsersCollection();
+        const usersCollection = await getUsersCollection();
 
         let addressObj;
         if (typeof address === 'object' && address !== null && !Array.isArray(address)) {

@@ -119,7 +119,7 @@ router.get('/column-chart', async (req, res) => {
             match.updatedAt = { $gte: oneMonthAgo };
         }
         
-        const usersCollection = getUsersCollection();
+        const usersCollection = await getUsersCollection();
         const data = await usersCollection.aggregate([
             { $match: match },
             {
